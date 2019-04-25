@@ -11,7 +11,12 @@ spring:
 spring:
   profiles: cloud
   datasource:
-    url: jdbc:mysql://gwr-master-database/master_schema?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://gwr-master-database:3306/master_schema?useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: testing
+  jpa:
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL57Dialect
+      ddl-auto: update
