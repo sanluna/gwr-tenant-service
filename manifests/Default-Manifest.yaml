@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gwr-tenant-service
+  labels:
+    app: gwr-tenant-service
+  namespace: gwr-api
+  annotations:
+    moniker.spinnaker.io/stack: tenant
+    moniker.spinnaker.io/detail: service
+spec:
+  selector:
+    matchLabels:
+      app: gwr-tenant-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gwr-tenant-service
+    spec:
+      containers:
+      - name: master
+        image: eu.gcr.io/sanluna-gwr/gwr-tenant-service
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 18101
+        readinessProbe:
+          httpGet:
+            path: /tenantservice/status/health
+            port: 18101
+            httpHeaders:
+            - name: Content-Type
+              value: application/json
+            - name: Accept
+              value: application/json
+          periodSeconds: 8
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 6
+          initialDelaySeconds: 20
+        livenessProbe:
+          httpGet:
+            path: /tenantservice/status/health
+            port: 18101
+            httpHeaders:
+            - name: Content-Type
+              value: application/json
+            - name: Accept
+              value: application/json
+          periodSeconds: 4
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 6
+          initialDelaySeconds: 20
+        env:
+        - name: JAVA_OPTS
+          value: -Xms128m -Xmx128m -Dspring.profiles.active=cloud
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 150m
+            memory: 256Mi
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gwr-tenant-service
+  namespace: gwr-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gwr-tenant-service
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80

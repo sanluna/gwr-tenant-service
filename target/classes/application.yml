@@ -1,0 +1,17 @@
+gwr:
+  multitenancy: false
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/tenant_clients?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: Slazhy
+    password: hej123
+
+---
+spring:
+  profiles: cloud
+  datasource:
+    url: jdbc:mysql://gwr-master-database/master_schema?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: testing

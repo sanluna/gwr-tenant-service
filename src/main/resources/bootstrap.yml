@@ -1,0 +1,16 @@
+server:
+  port: 18101
+  use-forward-headers: true
+  servlet:
+    context-path: /tenantservice
+spring:
+  application:
+    name: gwr-tenant-service
+  cloud:
+    config:
+      uri: http://localhost:18001
+
+---
+spring:
+  profiles: cloud
+  cloud.config.uri: http://gwr-config-service
