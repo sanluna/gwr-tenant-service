@@ -28,7 +28,9 @@ public class GWRTenantServiceStarter {
             http
                     .authorizeRequests()
                     .antMatchers(HttpMethod.GET, "/status/**").permitAll()
-                    .anyRequest().fullyAuthenticated();
+                    .antMatchers(HttpMethod.POST, "/teanants/").permitAll()
+                    .antMatchers(HttpMethod.POST, "/teanants").permitAll()
+                    .anyRequest().authenticated();
         }
     }
 

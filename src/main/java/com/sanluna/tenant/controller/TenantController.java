@@ -4,9 +4,12 @@ import com.sanluna.tenant.model.GWRDatabaseInfo;
 import com.sanluna.tenant.model.entity.GWRDatabaseInfoEntity;
 import com.sanluna.tenant.service.TenantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,7 @@ public class TenantController {
 
     @GetMapping("{tenantId}")
     public GWRDatabaseInfo getByTenant(@PathVariable("tenantId") String ID) {
+        System.out.println("fetching tenant with id: " + ID);
         return tenantService.getByTenant(ID).convertToDTO();
     }
 

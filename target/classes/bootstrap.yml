@@ -8,9 +8,9 @@ spring:
     name: gwr-tenant-service
   cloud:
     config:
-      uri: http://localhost:18001
+      uri: http://localhost:18001/configservice
 
 ---
 spring:
   profiles: cloud
-  cloud.config.uri: http://gwr-config-service
+  cloud.config.uri: http://gwr-configuration-service/configservice
