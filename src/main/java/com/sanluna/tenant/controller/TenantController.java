@@ -1,15 +1,12 @@
 package com.sanluna.tenant.controller;
 
+import com.sanluna.commons.controller.BaseController;
 import com.sanluna.tenant.model.GWRDatabaseInfo;
 import com.sanluna.tenant.model.entity.GWRDatabaseInfoEntity;
 import com.sanluna.tenant.service.TenantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
-import org.springframework.context.annotation.Scope;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +14,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = "tenants", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-public class TenantController {
+public class TenantController implements BaseController<GWRDatabaseInfo> {
 
     @Autowired
     private TenantService tenantService;
@@ -32,8 +29,14 @@ public class TenantController {
         return tenantService.fetchAll().stream().map(GWRDatabaseInfoEntity::convertToDTO).collect(Collectors.toList());
     }
 
+    @Override
+    @PutMapping
+    public GWRDatabaseInfo update(@RequestBody GWRDatabaseInfo dto) {
+        return tenantService.update(dto.convertToEntity()).convertToDTO();
+    }
+
     @GetMapping("{tenantId}")
-    public GWRDatabaseInfo getByTenant(@PathVariable("tenantId") String ID) {
+    public GWRDatabaseInfo getById(@PathVariable("tenantId") String ID) {
         System.out.println("fetching tenant with id: " + ID);
         return tenantService.getByTenant(ID).convertToDTO();
     }

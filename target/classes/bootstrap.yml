@@ -4,6 +4,8 @@ server:
   servlet:
     context-path: /tenantservice
 spring:
+  profiles:
+    include: tenancyOff
   application:
     name: gwr-tenant-service
   cloud:

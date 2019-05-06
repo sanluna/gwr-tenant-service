@@ -84,4 +84,14 @@ public class GWRDatabaseInfoEntity extends BaseEntity<GWRDatabaseInfoEntity> {
                 .setUrl(getUrl())
                 .setUsername(getUsername());
     }
+
+    @Override
+    public GWRDatabaseInfoEntity updateEntity(GWRDatabaseInfoEntity newEntity) {
+        if(newEntity.getUsername() != null) setUsername(newEntity.getUsername());
+        if(newEntity.getPassword() != null) setPassword(newEntity.getPassword());
+        if(newEntity.getTenant() != null) setTenant(newEntity.getTenant());
+        if(newEntity.getDriverClassName() != null) setDriverClassName(newEntity.getDriverClassName());
+        if(newEntity.getUrl() != null) setUrl(newEntity.getUrl());
+        return this;
+    }
 }
